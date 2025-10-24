@@ -4,9 +4,10 @@ import generateToken from "../utils/generateToken.js";
 import getDataUrl from "../utils/urlGenrator.js";
 import bcrypt from "bcrypt";
 import cloudinary from "cloudinary";
+import sanitize from "mongo-sanitize";
 
 export const registerUser = TryCatch(async (req, res) => {
-  const { name, email, password, gender } = req.body;
+  const { name, email, password, gender } = sanitize(req.body);
 
   const file = req.file;
 
@@ -49,7 +50,7 @@ export const registerUser = TryCatch(async (req, res) => {
 });
 
 export const loginUser = TryCatch(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = sanitize(req.body);
 
   const user = await User.findOne({ email });
 
